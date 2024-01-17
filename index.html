@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Horas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Calculadora de Horas de Atividades Complementares</h1>
+    <div class="container">
+        <div>
+            <label for="atividade">Tipo de Atividade:</label>
+            <select id="atividade">
+                <!-- <option value="atividade1">01 - Apresentação de trabalhos em congresso</option> -->
+                <option value="atividade2">02 - Cursos afins</option>
+                <option value="atividade3">03 - Estágios extracurriculares</option>
+                <option value="atividade4">04 - Monitoria</option>
+                <option value="atividade5">05 - Participação em grupos de estudo, pesquisa, extensão cadastrados no
+                    NEPEX</option>
+                <option value="atividade6">06 - Participação em eventos científico-culturais (palestras e debates)
+                </option>
+                <option value="atividade7">07 - Participação em eventos científico-culturais (seminários, simpósios,
+                    congressos, encontros e similares)</option>
+                <option value="atividade8">08 - Participação em projetos comunitários</option>
+                <!-- <option value="atividade9">09 - Organização de eventos científico-culturais (seminários, simpósios, congressos, encontros e similares)</option>
+                <option value="atividade10">10 - Organização de eventos científico-culturais (palestras e debates)</option>
+                <option value="atividade11">11 - Publicação de artigo em revista indexada</option> -->
+            </select>
+        </div>
+        <div>
+            <label for="ano">Ano:</label>
+            <select id="ano">
+                <option value="1">2023</option>
+                <option value="2">2022</option>
+                <option value="3">2021</option>
+                <option value="4">2020</option>
+                <option value="5">2019</option>
+                <option value="6">2018</option>
+                <option value="6">2017</option>
+                <option value="6">2016</option>
+            </select>
+        </div>
+        <div>
+            <label for="horas">Horas:</label>
+            <input type="number" id="horas" placeholder="Insira as horas" onkeypress="return handleKeyPress(event)">
+            <button onclick="adicionarHoras()">Adicionar Horas</button>
+        </div>
+        <div id="total-geral">Total Geral de Horas: <span id="total-geral-value">0</span> horas.</div>
+        <div id="horas-excedentes">Horas Excedentes: <span id="horas-excedentes-value">0</span> horas.</div>
+        <button onclick="verificarMinimoAtividades()" cla>Verificar Mínimo de Atividades</button>
+    </div>
+    <table id="tabela">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Máx. Horas</th>
+                <th>2023</th>
+                <th>2022</th>
+                <th>2021</th>
+                <th>2020</th>
+                <th>2019</th>
+                <th>2018</th>
+                <th>2017</th>
+                <th>2016</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="atividade-col">01 - Apresentação de trabalhos em congresso</td>
+                <td><button onclick="adicionarHorasPorAtividade('atividade1')">Adicionar</button></td>
+                <td id="atividade1-ano1">0</td>
+                <td id="atividade1-ano2">0</td>
+                <td id="atividade1-ano3">0</td>
+                <td id="atividade1-ano4">0</td>
+                <td id="atividade1-ano5">0</td>
+                <td id="atividade1-ano6">0</td>
+                <td id="atividade1-ano7">0</td>
+                <td id="atividade1-ano8">0</td>
+            </tr>
+            <tr>
+                <td class="atividade-col">02 - Cursos afins</td>
+                <td><input type="number" id="max-horas-atividade2" value="70" min="0" class="input-max"></td>
+                <td id="atividade2-ano1">0</td>
+                <td id="atividade2-ano2">0</td>
+                <td id="atividade2-ano3">0</td>
+                <td id="atividade2-ano4">0</td>
+                <td id="atividade2-ano5">0</td>
+                <td id="atividade2-ano6">0</td>
+                <td id="atividade2-ano7">0</td>
+                <td id="atividade2-ano8">0</td>
+            </tr>
+            <tr>
+                <td class="atividade-col">03 - Estágios extracurriculares</td>
+                <td><input type="number" id="max-horas-atividade3" value="60" min="0" class="input-max"></td>
+                <td id="atividade3-ano1">0</td>
+                <td id="atividade3-ano2">0</td>
+                <td id="atividade3-ano3">0</td>
+                <td id="atividade3-ano4">0</td>
+                <td id="atividade3-ano5">0</td>
+                <td id="atividade3-ano6">0</td>
+                <td id="atividade3-ano7">0</td>
+                <td id="atividade3-ano8">0</td>
+            </tr>
+            <tr>
+                <td class="atividade-col">04 - Monitoria</td>
+                <td><input type="number" id="max-horas-atividade4" value="70" min="0" class="input-max"></td>
+                <td id="atividade4-ano1">0</td>
+                <td id="atividade4-ano2">0</td>
+                <td id="atividade4-ano3">0</td>
+                <td id="atividade4-ano4">0</td>
+                <td id="atividade4-ano5">0</td>
+                <td id="atividade4-ano6">0</td>
+                <td id="atividade4-ano7">0</td>
+                <td id="atividade4-ano8">0</td>
+            </tr>
+            <tr>
+                <td class="atividade-col">05 - Participação em grupos de estudo, pesquisa, extensão cadastrados no NEPEX
+                </td>
+                <td><input type="number" id="max-horas-atividade5" value="70" min="0" class="input-max"></td>
+                <td id="atividade5-ano1">0</td>
+                <td id="atividade5-ano2">0</td>
+                <td id="atividade5-ano3">0</td>
+                <td id="atividade5-ano4">0</td>
+                <td id="atividade5-ano5">0</td>
+                <td id="atividade5-ano6">0</td>
+                <td id="atividade5-ano7">0</td>
+                <td id="atividade5-ano8">0</td>
+            </tr>
+            <tr>
+                <td class="atividade-col">06 - Participação em eventos científico-culturais (palestras e debates)</td>
+                <td><input type="number" id="max-horas-atividade6" value="30" min="0" class="input-max"></td>
+                <td id="atividade6-ano1">0</td>
+                <td id="atividade6-ano2">0</td>
+                <td id="atividade6-ano3">0</td>
+                <td id="atividade6-ano4">0</td>
+                <td id="atividade6-ano5">0</td>
+                <td id="atividade6-ano6">0</td>
+                <td id="atividade6-ano7">0</td>
+                <td id="atividade6-ano8">0</td>
+            </tr>
+            <tr>
+                <td class="atividade-col">07 - Participação em eventos científico-culturais (seminários, simpósios,
+                    congressos, encontros e similares)</td>
+                <td><input type="number" id="max-horas-atividade7" value="40" min="0" class="input-max"></td>
+                <td id="atividade7-ano1">0</td>
+                <td id="atividade7-ano2">0</td>
+                <td id="atividade7-ano3">0</td>
+                <td id="atividade7-ano4">0</td>
+                <td id="atividade7-ano5">0</td>
+                <td id="atividade7-ano6">0</td>
+                <td id="atividade7-ano7">0</td>
+                <td id="atividade7-ano8">0</td>
+            </tr>
+            <tr>
+                <td class="atividade-col">08 - Participação em projetos comunitários</td>
+                <td><input type="number" id="max-horas-atividade8" value="80" min="0" class="input-max"></td>
+                <td id="atividade8-ano1">0</td>
+                <td id="atividade8-ano2">0</td>
+                <td id="atividade8-ano3">0</td>
+                <td id="atividade8-ano4">0</td>
+                <td id="atividade8-ano5">0</td>
+                <td id="atividade8-ano6">0</td>
+                <td id="atividade8-ano7">0</td>
+                <td id="atividade8-ano8">0</td>
+            </tr>
+            <tr>
+                <td class="atividade-col">09 - Organização de eventos científico-culturais (seminários, simpósios,
+                    congressos, encontros e similares)</td>
+                <td><button onclick="adicionarHorasPorAtividade('atividade9')">Adicionar</button></td>
+                <td id="atividade9-ano1">0</td>
+                <td id="atividade9-ano2">0</td>
+                <td id="atividade9-ano3">0</td>
+                <td id="atividade9-ano4">0</td>
+                <td id="atividade9-ano5">0</td>
+                <td id="atividade9-ano6">0</td>
+                <td id="atividade9-ano7">0</td>
+                <td id="atividade9-ano8">0</td>
+            </tr>
+            <tr>
+                <td class="atividade-col">10 - Organização de eventos científico-culturais (palestras e debates)</td>
+                <td><button onclick="adicionarHorasPorAtividade('atividade10')">Adicionar</button></td>
+                <td id="atividade10-ano1">0</td>
+                <td id="atividade10-ano2">0</td>
+                <td id="atividade10-ano3">0</td>
+                <td id="atividade10-ano4">0</td>
+                <td id="atividade10-ano5">0</td>
+                <td id="atividade10-ano6">0</td>
+                <td id="atividade10-ano7">0</td>
+                <td id="atividade10-ano8">0</td>
+            </tr>
+            <tr>
+                <td class="atividade-col">11 - Publicação de artigo em revista indexada</td>
+                <td><button onclick="adicionarHorasPorAtividade('atividade11')">Adicionar</button></td>
+                <td id="atividade11-ano1">0</td>
+                <td id="atividade11-ano2">0</td>
+                <td id="atividade11-ano3">0</td>
+                <td id="atividade11-ano4">0</td>
+                <td id="atividade11-ano5">0</td>
+                <td id="atividade11-ano6">0</td>
+                <td id="atividade11-ano7">0</td>
+                <td id="atividade11-ano8">0</td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- <button onclick="zerarSistema()" class="zerar">Limpar Sistema</button> -->
+</body>
+<script src="script.js"></script>
+</html>
