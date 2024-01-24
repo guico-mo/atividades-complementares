@@ -23,6 +23,8 @@ function adicionarHoras() {
         var sobra = (valorAtual + horas) - maxHoras;
         alert('A quantidade de horas adicionada excede o máximo permitido para esta atividade. Serão descartadas ' + sobra + ' horas.');
         horasAdicionadas = maxHoras - valorAtual;
+    } else {
+        sobraAcumulada = 0;
     }
 
     var celulaHorasExcedentes = document.getElementById('horas-excedentes-value');
