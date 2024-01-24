@@ -17,3 +17,7 @@ Esta calculadora foi desenvolvida para auxiliar pessoas responsáveis pela conta
 2. Selecione o ano correspondente.
 3. Insira o número de horas e clique em "Adicionar Horas".
 4. Acompanhe o total geral e horas excedentes na parte inferior.
+
+## Acesse
+
+https://guico-mo.github.io/calculadora-de-horas/
