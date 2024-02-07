@@ -1,5 +1,10 @@
 var sobraAcumulada = 0;
 
+function recarregar() {
+    // Use a função location.reload() para recarregar a página
+    location.reload();
+}
+
 function adicionarHoras() {
     var atividadeSelecionada = document.getElementById('atividade').value;
     var anoSelecionado = document.getElementById('ano').value;
