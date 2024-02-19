@@ -5,7 +5,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Horas</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #d9d9d9;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: auto;
+            table-layout: auto;
+        }
+
+        th,
+        td {
+            border: 1px solid #999999;
+            padding: 6px;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+        .empty,
+        .atividade-col {
+            max-width: 450px;
+        }
+
+        th:not(.empty),
+        td:not(.atividade-col, .max) {
+            min-width: 55px;
+            max-width: 120px;
+        }
+
+        th {
+            background-color: #d9d9d9;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-block: 10px;
+        }
+
+        h1 {
+            margin-top: 8px;
+            margin-bottom: 0;
+            font-size: 24px;
+        }
+
+        #total-geral {
+            font-weight: bold;
+        }
+
+        td.atividade-col {
+            font-weight: bold;
+            min-width: 400px;
+            text-align: start;
+        }
+
+        .input-max {
+            width: 84px;
+            text-align: end;
+        }
+
+        button {
+            width: fit-content;
+            height: fit-content;
+        }
+
+        .child {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        select {
+            max-width: 600px;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,9 +98,12 @@
                 <option value="atividade2">02 - Cursos afins</option>
                 <option value="atividade3">03 - Estágios extracurriculares</option>
                 <option value="atividade4">04 - Monitoria</option>
-                <option value="atividade5">05 - Participação em grupos de estudo, pesquisa, extensão cadastrados no NEPEX</option>
-                <option value="atividade6">06 - Participação em eventos científico-culturais (palestras e debates)</option>
-                <option value="atividade7">07 - Participação em eventos científico-culturais (seminários, simpósios, congressos, encontros e similares)</option>
+                <option value="atividade5">05 - Participação em grupos de estudo, pesquisa, extensão cadastrados no
+                    NEPEX</option>
+                <option value="atividade6">06 - Participação em eventos científico-culturais (palestras e debates)
+                </option>
+                <option value="atividade7">07 - Participação em eventos científico-culturais (seminários, simpósios,
+                    congressos, encontros e similares)</option>
                 <option value="atividade8">08 - Participação em projetos comunitários</option>
             </select>
         </div>
@@ -123,7 +207,8 @@
                 <td id="atividade4-ano9">0</td>
             </tr>
             <tr>
-                <td class="atividade-col">05 - Participação em grupos de estudo, pesquisa, extensão cadastrados no NEPEX</td>
+                <td class="atividade-col">05 - Participação em grupos de estudo, pesquisa, extensão cadastrados no NEPEX
+                </td>
                 <td><input type="number" id="max-horas-atividade5" value="70" min="0" class="input-max"></td>
                 <td id="atividade5-ano1">0</td>
                 <td id="atividade5-ano2">0</td>
@@ -149,7 +234,8 @@
                 <td id="atividade6-ano9">0</td>
             </tr>
             <tr>
-                <td class="atividade-col">07 - Participação em eventos científico-culturais (seminários, simpósios, congressos, encontros e similares)</td>
+                <td class="atividade-col">07 - Participação em eventos científico-culturais (seminários, simpósios,
+                    congressos, encontros e similares)</td>
                 <td><input type="number" id="max-horas-atividade7" value="40" min="0" class="input-max"></td>
                 <td id="atividade7-ano1">0</td>
                 <td id="atividade7-ano2">0</td>
@@ -175,7 +261,8 @@
                 <td id="atividade8-ano9">0</td>
             </tr>
             <tr>
-                <td class="atividade-col">09 - Organização de eventos científico-culturais (seminários, simpósios, congressos, encontros e similares)</td>
+                <td class="atividade-col">09 - Organização de eventos científico-culturais (seminários, simpósios,
+                    congressos, encontros e similares)</td>
                 <td><button onclick="adicionarHorasPorAtividade('atividade9')">Adicionar</button></td>
                 <td id="atividade9-ano1">0</td>
                 <td id="atividade9-ano2">0</td>
@@ -216,5 +303,119 @@
         </tbody>
     </table>
 </body>
-<script src="script.js"></script>
+
+<script>
+    var sobraAcumulada = 0;
+
+    function recarregar() {
+        if (confirm("Deseja limpar o sistema? Todas as informações atuais serão perdidas.") == true) {
+            location.reload();
+        }
+    }
+
+    function adicionarHoras() {
+        var atividadeSelecionada = document.getElementById('atividade').value;
+        var anoSelecionado = document.getElementById('ano').value;
+        var horas = parseInt(document.getElementById('horas').value);
+
+        if (isNaN(horas) || horas <= 0) {
+            alert('Por favor, insira um valor válido para as horas.');
+            return;
+        }
+
+        var celula = document.getElementById(atividadeSelecionada + '-ano' + anoSelecionado);
+        var celulaMaxHoras = document.getElementById('max-horas-' + atividadeSelecionada).value;
+        var celulaTotalGeral = document.getElementById('total-geral-value');
+
+        var valorAtual = parseInt(celula.innerHTML);
+        var maxHoras = parseInt(celulaMaxHoras);
+        var horasAdicionadas = Math.min(horas, maxHoras);
+
+        if ((valorAtual + horas) > maxHoras) {
+            sobraAcumulada += (valorAtual + horas) - maxHoras;
+            var sobra = (valorAtual + horas) - maxHoras;
+            alert('A quantidade de horas adicionada excede o máximo permitido para esta atividade. Serão descartadas ' + sobra + ' horas.');
+            horasAdicionadas = maxHoras - valorAtual;
+        }
+
+        var celulaHorasExcedentes = document.getElementById('horas-excedentes-value');
+        celulaHorasExcedentes.innerHTML = sobraAcumulada;
+
+        celula.innerHTML = valorAtual + horasAdicionadas;
+
+        var valorAtualTotalGeral = parseInt(celulaTotalGeral.innerHTML);
+        celulaTotalGeral.innerHTML = valorAtualTotalGeral + horasAdicionadas;
+
+        document.getElementById('horas').value = '';
+    }
+
+
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            adicionarHoras();
+            return false;
+        }
+        return true;
+    }
+
+    window.addEventListener('beforeunload', function (e) {
+        var confirmationMessage = 'Dados serão perdidos. Tem certeza de que deseja sair?';
+        e.returnValue = confirmationMessage;
+        return confirmationMessage;
+    });
+
+    function adicionarHorasPorAtividade(atividade) {
+        var horas;
+
+        switch (atividade) {
+            case 'atividade1':
+                horas = 20;
+                break;
+            case 'atividade9':
+                horas = 20;
+                break;
+            case 'atividade10':
+                horas = 5;
+                break;
+            case 'atividade11':
+                horas = 40;
+                break;
+        }
+
+        var anoSelecionado = document.getElementById('ano').value;
+        var celula = document.getElementById(atividade + '-ano' + anoSelecionado);
+        var celulaTotalGeral = document.getElementById('total-geral-value');
+
+        var valorAtual = parseInt(celula.innerHTML);
+        var horasAdicionadas = horas;
+
+        celula.innerHTML = valorAtual + horasAdicionadas;
+
+        var valorAtualTotalGeral = parseInt(celulaTotalGeral.innerHTML);
+        celulaTotalGeral.innerHTML = valorAtualTotalGeral + horasAdicionadas;
+    }
+
+    function verificarMinimoAtividades() {
+        var atividades = ['atividade1', 'atividade2', 'atividade3', 'atividade4', 'atividade5', 'atividade6', 'atividade7', 'atividade8', 'atividade9', 'atividade10', 'atividade11'];
+        var contadorAtividades = 0;
+
+        atividades.forEach(function (atividade) {
+            for (var i = 1; i <= 8; i++) {
+                var celula = document.getElementById(atividade + '-ano' + i);
+                if (parseInt(celula.innerHTML) > 0) {
+                    contadorAtividades++;
+                    break;
+                }
+            }
+        });
+
+        if (contadorAtividades >= 3) {
+            alert('Você atingiu o mínimo de 3 atividades diferentes.');
+        } else {
+            alert('Você precisa completar no mínimo 3 atividades diferentes.');
+        }
+    }
+
+</script>
+
 </html>
