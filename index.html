@@ -23,34 +23,41 @@
                 <option value="atividade8">08 - Participação em projetos comunitários</option>
             </select>
         </div>
-        <div>
-            <label for="ano">Ano:</label>
-            <select id="ano">
-                <option value="1">2024</option>
-                <option value="2">2023</option>
-                <option value="3">2022</option>
-                <option value="4">2021</option>
-                <option value="5">2020</option>
-                <option value="6">2019</option>
-                <option value="7">2018</option>
-                <option value="8">2017</option>
-                <option value="9">2016</option>
-            </select>
+        <div class="child">
+            <div>
+                <label for="ano">Ano:</label>
+                <select id="ano">
+                    <option value="1">2024</option>
+                    <option value="2">2023</option>
+                    <option value="3">2022</option>
+                    <option value="4">2021</option>
+                    <option value="5">2020</option>
+                    <option value="6">2019</option>
+                    <option value="7">2018</option>
+                    <option value="8">2017</option>
+                    <option value="9">2016</option>
+                </select>
+            </div>
+            <div>
+                <label for="horas">Horas:</label>
+                <input type="number" id="horas" placeholder="Insira as horas" onkeypress="return handleKeyPress(event)">
+                <button onclick="adicionarHoras()">Adicionar Horas</button>
+            </div>
         </div>
-        <div>
-            <label for="horas">Horas:</label>
-            <input type="number" id="horas" placeholder="Insira as horas" onkeypress="return handleKeyPress(event)">
-            <button onclick="adicionarHoras()">Adicionar Horas</button>
+        <div class="child">
+            <div id="total-geral">Total Geral de Horas: <span id="total-geral-value">0</span> horas.</div>
+            <div id="horas-excedentes">Horas Excedentes: <span id="horas-excedentes-value">0</span> horas.</div>
         </div>
-        <div id="total-geral">Total Geral de Horas: <span id="total-geral-value">0</span> horas.</div>
-        <div id="horas-excedentes">Horas Excedentes: <span id="horas-excedentes-value">0</span> horas.</div>
-        <button onclick="verificarMinimoAtividades()">Verificar Mínimo de Atividades</button>
+        <div class="child">
+            <button onclick="verificarMinimoAtividades()">Verificar Mínimo de Atividades</button>
+            <button onclick="recarregar()" class="zerar">Limpar Sistema</button>
+        </div>
     </div>
     <table id="tabela">
         <thead>
             <tr>
-                <th></th>
-                <th>Máx. Horas</th>
+                <th class="empty"></th>
+                <th class="max">Máx. Horas</th>
                 <th>2024</th>
                 <th>2023</th>
                 <th>2022</th>
@@ -208,7 +215,6 @@
             </tr>
         </tbody>
     </table>
-    <button onclick="recarregar()" class="zerar">Limpar Sistema</button>
 </body>
 <script src="script.js"></script>
 </html>

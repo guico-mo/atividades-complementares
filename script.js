@@ -1,8 +1,9 @@
 var sobraAcumulada = 0;
 
 function recarregar() {
-    // Use a função location.reload() para recarregar a página
-    location.reload();
+    if(confirm("Deseja limpar o sistema? Todas as informações atuais serão perdidas.") == true){
+        location.reload();
+    }
 }
 
 function adicionarHoras() {

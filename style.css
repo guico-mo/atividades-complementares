@@ -1,10 +1,6 @@
 * {
     font-family: sans-serif;
-    font-size: 18px;
-}
-
-.zerar{
-    margin-block: 8px;
+    font-size: 16px;
 }
 
 tr:nth-child(even) {
@@ -18,13 +14,21 @@ table {
 }
 
 th,
-td {
+td{
     border: 1px solid #999999;
     padding: 6px;
     text-align: center;
-    min-width: 100px;
-    max-width: 200px;
     word-wrap: break-word;
+}
+
+.empty, .atividade-col {
+    max-width: 450px;
+}
+
+th:not(.empty),
+td:not(.atividade-col, .max){
+    min-width: 55px;
+    max-width: 120px;
 }
 
 th {
@@ -34,8 +38,8 @@ th {
 .container {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-block: 8px;
+    gap: 6px;
+    margin-block: 10px;
 }
 
 h1 {
@@ -61,4 +65,15 @@ td.atividade-col {
 
 button{
     width: fit-content;
+    height: fit-content;
+}
+
+.child{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+select{
+    max-width: 600px;
 }
